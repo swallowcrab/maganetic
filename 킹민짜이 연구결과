@@ -1,5 +1,5 @@
 from sympy import Derivative
-from sympy import symbols, Limit
+from sympy import symbol
 x = symbols('x')
 def dercof(sth):
     L=[]
