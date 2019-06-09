@@ -1,0 +1,28 @@
+from sympy import Derivative
+from sympy import symbols, Limit
+x = symbols('x')
+def dercof(sth):
+    L=[]
+    for i in range(0, int(len(sth))):
+        while len(sth)>i :
+             L.append(str(Derivative(sth.pop(),x).doit()))
+        return L
+def rd():
+    sth=input().split()
+    fin=input().split()
+    x = dercof(sth)
+    if x == fin:
+        return 'pass'        
+    if x != fin:
+        return 'fail'
+i = 1
+while i<=4:
+    print('round', i)
+    a = rd()
+    if a== 'pass':
+        i=i+1
+    if a== 'fail':
+        print('try again')
+        break
+    if i==5 and a=='pass':
+        print('success')
