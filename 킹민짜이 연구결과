@@ -1,28 +1,70 @@
 from sympy import Derivative
-from sympy import symbol
+from sympy import symbols
+from numpy import *
+import re
 x = symbols('x')
+print('문제에서 적용가능한 함수 리스트\n',"'함수 : 입력' 형식에 맞춰 입력해야 함\n")
+print('f(x)^n : f(x)**n')
+print('e^f(x) : exp(f(x)) (e**f(x)로 안씀)')
+print('a^f(x) : a**f(x)')
+print('ln(f(x)) : log(f(x))')
+print('sin(f(x)) : sin(f(x))')
+
+#print('기타 함수 \nΓ(x) : gamma(x)')
+#print('ψ_n(x) : polygamma(n, x)')
+
+
 def dercof(sth):
     L=[]
     for i in range(0, int(len(sth))):
         while len(sth)>i :
              L.append(str(Derivative(sth.pop(),x).doit()))
         return L
+
+        
+def desc(x,fin):
+    if len(x)!=len(fin):
+        return 'fail'
+    for i in range(len(x)):
+        if x[i] not in fin: return 'fail'; break
+        else:
+            if i==len(x)-1:
+                if x[i] in fin: return 'pass'
+                
+                
+def correct(x):
+    a=''
+    for i in range(len(x)):
+        if i!=len(x)-1:
+            a+=x[i]; a+=' '
+        else: a+=x[i]
+    return a
+
+
 def rd():
-    sth=input().split()
+    global answer
+    sth=input().split() 
     fin=input().split()
     x = dercof(sth)
-    if x == fin:
-        return 'pass'        
-    if x != fin:
-        return 'fail'
+    x.reverse()
+    # 띄어쓰기로 함수를 나눴을 때 미분값을 반대로 뒤집어 입력해야 넘어감, 아마도 스택써서 그런듯. 그래서 리스트 자체를 뒤집음
+    answer=correct(x)
+    fin=del_0(fin)
+    # 어차피 0은 있으나 마나 상관 없으니 마음껏 써도 상관은 없게 만들어놓음
+    return desc(x,fin)
+    
+
 i = 1
-while i<=4:
+while 1:
     print('round', i)
     a = rd()
     if a== 'pass':
         i=i+1
-    if a== 'fail':
-        print('try again')
-        break
-    if i==5 and a=='pass':
         print('success')
+    elif a== 'fail':
+        print('answer is',answer) #오답이면 정답 나오게 설정함, 맘에 안들면 주석처리 하면 됨
+        print('try again')
+        print("your score is",i-1,'score.')
+        break
+#    if i==5 and a=='pass':
+#        print('success')
